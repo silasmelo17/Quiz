@@ -1,13 +1,14 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
-import Quiz from '@Components/Quiz'
+import axios from 'axios'
+
 import { Quiz as QuizType } from '@Types/quiz'
-import { QuizProvider } from '@Components/Quiz/context'
 
 
 
 interface Props {
-    data: QuizType
+    quizzes: QuizType
 }
 
 
@@ -20,17 +21,22 @@ export default function Home({ data }: Props) {
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <QuizProvider data={data}>
-            <Quiz />
-        </QuizProvider>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {data.map( ({ _id, title }) => (
+                <Link href={`/quiz/${_id.toString()}`}>
+                    {title}
+                </Link>
+            ))}
+        </div>
     </>)
 }
 
 
 
-import data from '../data.json'
 
 export async function getStaticProps() {
+    const { data } = await axios.get( 'http://localhost:3000/api/quiz');
+
     return {
         props: {
             data

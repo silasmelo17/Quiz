@@ -20,10 +20,10 @@ const QuizSchema = new mongoose.Schema({
         type: "Boolean",
         required: true,
     },
-    questions: [{
-        type: mongoose.Schema.Types.ObjectId,
+    questions: {
+        type: [mongoose.Schema.Types.ObjectId],
         ref: "Questions"
-    }]
+    }
 });
 
 
